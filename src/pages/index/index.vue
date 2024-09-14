@@ -4,12 +4,9 @@
     <view class="text-area">
       <text class="title">{{ title }}</text>
     </view>
-    <view
-      class="text-area text-area text-area text-area text-area text-area text-area text-area text-area text-area text-area text-area text-area text-area text-area text-area"
-      style="display: block"
-    >
-      hhhhtest
-    </view>
+    <view class="i-carbon:checkmark-filled text-orange-400"></view>
+    <view class="w-10 h-10 bg-cyan-300"></view>
+    <view class="w-100rpx h-50rpx bg-pink-300 mt-6rpx"></view>
   </view>
 </template>
 
