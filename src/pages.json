@@ -1,10 +1,28 @@
 {
   "pages": [
-    //pages数组中第一项表示应用启动页，参考：https://uniapp.dcloud.io/collocation/pages
     {
       "path": "pages/index/index",
       "style": {
-        "navigationBarTitleText": "uni-app"
+        "navigationBarTitleText": "uni-app",
+        "navigationStyle": "custom"
+      }
+    },
+    {
+      "path": "pages/detail/detail",
+      "style": {
+        "navigationStyle": "custom"
+      }
+    },
+    {
+      "path": "pages/exercise/exercise",
+      "style": {
+        "navigationStyle": "custom"
+      }
+    },
+    {
+      "path": "pages/user/user",
+      "style": {
+        "navigationStyle": "custom"
       }
     }
   ],
@@ -13,5 +31,31 @@
     "navigationBarTitleText": "uni-app",
     "navigationBarBackgroundColor": "#F8F8F8",
     "backgroundColor": "#F8F8F8"
+  },
+  "tabBar": {
+    "color": "#cdcdcd",
+    "selectedColor": "#97afff",
+    "borderStyle": "black",
+    "backgroundColor": "#ffffff",
+    "list": [
+      {
+        "iconPath": "static/tabbar/star.png",
+        "selectedIconPath": "static/tabbar/selectedStar.png",
+        "pagePath": "pages/index/index",
+        "text": "探索"
+      },
+      {
+        "iconPath": "static/tabbar/exercise.png",
+        "selectedIconPath": "static/tabbar/selectedExercise.png",
+        "pagePath": "pages/exercise/exercise",
+        "text": "练习"
+      },
+      {
+        "iconPath": "static/tabbar/user.png",
+        "selectedIconPath": "static/tabbar/selectedUser.png",
+        "pagePath": "pages/user/user",
+        "text": "我的"
+      }
+    ]
   }
 }
