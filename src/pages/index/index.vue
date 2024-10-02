@@ -37,10 +37,10 @@ import homeRecommend from './components/homeRecommend.vue'
 import homeMeditation from './components/homeMeditation.vue'
 import homeSound from './components/homeSound.vue'
 
-type TabNameType = 'recommend' | 'meditation' | 'sound'
+export type TabName = 'recommend' | 'meditation' | 'sound'
 interface Tab {
   label: string
-  name: TabNameType
+  name: TabName
 }
 
 const tabs = ref<Tab[]>([
@@ -50,8 +50,8 @@ const tabs = ref<Tab[]>([
 ])
 
 // 激活tab的name
-const activeName = ref<TabNameType>('recommend')
-const handleTabsChange = (name: TabNameType) => {
+const activeName = ref<TabName>('recommend')
+const handleTabsChange = (name: TabName) => {
   activeName.value = name
 }
 

@@ -5,12 +5,7 @@
       <view class="button--default" @click="changeTab('meditation')">全部冥想</view>
     </view>
     <scroll-view scroll-x>
-      <view
-        class="flex bg-[length:100%_100%] py-20rpx"
-        style="
-          background-image: url('https://imgco.xinli001.com/ceping/resources/images…ess=image/resize,m_fill,h_45,w_150/blur,r_30,s_10');
-        "
-      >
+      <view class="flex bg-[length:100%_100%] py-20rpx" style="background-image: url('')">
         <view
           v-for="(item, index) in exerciseList"
           :key="index"
@@ -19,9 +14,9 @@
         >
           <img
             src="https://imgco.xinli001.com/ceping/resources/images/trinyMCE/f2fed86414164946bc3ee4be0da2e9a0.png@80"
-            class="w-150rpx h-180rpx rounded-15rpx mt--20rpx"
+            class="w-150rpx h-180rpx rounded-15rpx mt--20rpx ml-20rpx"
           />
-          <view class="ml-20rpx flex flex-col justify-around">
+          <view class="ml-20rpx flex flex-col justify-between py-20rpx">
             <view class="text-32rpx">{{ item.name }}</view>
             <view class="text-24rpx">{{ item.intro }}</view>
             <view class="text-20rpx">
@@ -34,7 +29,7 @@
     </scroll-view>
     <view class="flex justify-between py-30rpx">
       <view class="text-36rpx font-bold">推荐声音</view>
-      <view class="button--default">全部声音</view>
+      <view class="button--default" @click="changeTab('sound')">全部声音</view>
     </view>
     <view class="flex flex-wrap justify-around m-t10rpx">
       <view
@@ -48,7 +43,7 @@
     </view>
     <view class="flex justify-between py-30rpx">
       <view class="text-36rpx font-bold">精选</view>
-      <view class="button--default">更多</view>
+      <view class="button--default" @click="changeTab('meditation')">更多</view>
     </view>
     <course-item
       v-for="(item, index) in exerciseList"
@@ -62,6 +57,7 @@
 <script setup lang="ts">
 import { ref } from 'vue'
 import courseItem from './courseItem.vue'
+import type { TabName } from '../index.vue'
 
 const exerciseList = ref([
   {
@@ -148,7 +144,7 @@ const soundList = ref([
 ])
 
 const emit = defineEmits(['changeTab'])
-const changeTab = (val: string) => {
+const changeTab = (val: TabName) => {
   emit('changeTab', val)
 }
 </script>

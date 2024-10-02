@@ -1,5 +1,5 @@
 <template>
-  <view class="h-full overflow-auto px-30rpx flex">
+  <view class="h-full overflow-auto flex">
     <view class="w-150rpx bg-gray-100 text-center">
       <view
         v-for="(item, index) in categoryList"
@@ -14,6 +14,40 @@
       </view>
     </view>
     <view class="grow overflow-auto px-30rpx">
+      <view class="relative">
+        <view class="flex text-26rpx text-gray-400 h-80rpx items-center">
+          <view class="flex-1 flex justify-center items-center">
+            <view
+              @click="showSortDropdown = !showSortDropdown"
+              :class="{ 'text-blue-500': sortType !== 'sort' }"
+            >
+              {{ sortType === 'sort' ? '排序' : '上新' }}
+            </view>
+            <view
+              class="text-20rpx"
+              :class="showSortDropdown ? 'i-carbon:caret-up' : 'i-carbon:caret-down'"
+            ></view>
+          </view>
+          <view class="flex-1 flex justify-center items-center">
+            <view>难度</view>
+            <view class="i-carbon:caret-up text-20rpx"></view>
+          </view>
+        </view>
+        <view v-if="showSortDropdown" class="absolute w-full bg-white py40rpx text-28rpx">
+          <view
+            v-for="(item, index) in sortOptions"
+            :key="item.value"
+            class="text-center"
+            :class="{
+              'text-blue-500': sortType === item.value,
+              ' mt20rpx': index > 0
+            }"
+            @click="changeSortType(item.value)"
+          >
+            {{ item.label }}
+          </view>
+        </view>
+      </view>
       <course-item
         v-for="(item, index) in exerciseList"
         :key="index"
@@ -126,5 +160,25 @@ const exerciseList = ref([
     userAvatar: ''
   }
 ])
+
+type SortType = 'sort' | 'latest'
+interface SortOption {
+  label: string
+  value: SortType
+}
+// 显示排序下拉框
+let showSortDropdown = ref<boolean>(false)
+// 排序类型
+let sortType = ref<SortType>('sort')
+// 排序下拉框选项
+const sortOptions: SortOption[] = [
+  { label: '综合排序', value: 'sort' },
+  { label: '上新优先', value: 'latest' }
+]
+// 改变排序类型
+const changeSortType = (val: SortType) => {
+  sortType.value = val
+  showSortDropdown.value = false
+}
 </script>
 <style></style>

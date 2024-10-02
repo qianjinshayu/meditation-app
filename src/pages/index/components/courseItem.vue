@@ -6,10 +6,12 @@
     />
     <view class="grow flex flex-col justify-between py-5rpx ml-30rpx">
       <view class="text-32rpx font-bold">{{ courseInfo.name }}</view>
-      <view class="text-26rpx text-gray-400">{{ courseInfo.intro }}</view>
+      <view class="text-26rpx text-gray-400 line-clamp-1">{{ courseInfo.intro }}</view>
       <view class="flex text-24rpx text-gray-400 justify-between">
         <view class="flex items-center">
-          <view class="border-2rpx border-gray-300 border-solid py-2rpx px-6rpx rounded-4rpx">
+          <view
+            class="border-2rpx border-gray-300 border-solid py-4rpx px-20rpx rounded-12rpx leading-none"
+          >
             入门
           </view>
           <view class="ml-20rpx">
