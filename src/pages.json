@@ -14,6 +14,12 @@
       }
     },
     {
+      "path": "pages/detail/play",
+      "style": {
+        "navigationStyle": "custom"
+      }
+    },
+    {
       "path": "pages/exercise/exercise",
       "style": {
         "navigationStyle": "custom"

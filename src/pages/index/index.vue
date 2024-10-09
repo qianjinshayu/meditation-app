@@ -1,26 +1,13 @@
 <template>
   <view>
-    <view class="fixed left-0 top-0 w-full">
-      <view :style="{ height: statusBarHeight + 'px' }"></view>
-      <view :style="{ height: titleBarHeight + 'px' }"></view>
-      <view class="flex items-center h-60px">
-        <view
-          v-for="(item, index) in tabs"
-          :key="index"
-          class="ml-60rpx leading-none"
-          @click="handleTabsChange(item.name)"
-        >
-          <view :class="activeName === item.name ? 'font-bold text-48rpx' : 'text-24rpx'">
-            {{ item.label }}
-          </view>
-          <view v-if="activeName === item.name" class="h-8rpx bg-blue-300 mt--6rpx rounded"></view>
-        </view>
-      </view>
-    </view>
+    <custom-navigation></custom-navigation>
     <view
-      class="absolute w-full"
-      :style="{ top: statusBarHeight + titleBarHeight + 60 + 'px', bottom: 0 }"
+      class="fixed left-0 top-0 w-full flex items-center h-60px pl-60rpx"
+      :style="{ top: topHeight + 'px' }"
     >
+      <tabs v-model="activeName" :tab-list="tabList"></tabs>
+    </view>
+    <view class="absolute w-full" :style="{ top: topHeight + 60 + 'px', bottom: 0 }">
       <home-recommend
         v-if="activeName === 'recommend'"
         @change-tab="handleTabsChange"
@@ -36,6 +23,9 @@ import { ref } from 'vue'
 import homeRecommend from './components/homeRecommend.vue'
 import homeMeditation from './components/homeMeditation.vue'
 import homeSound from './components/homeSound.vue'
+import customNavigation from '@/components/customNavigation/index.vue'
+import { getTopHeight } from '@/utils/index'
+import tabs from '@/components/tabs/index.vue'
 
 export type TabName = 'recommend' | 'meditation' | 'sound'
 interface Tab {
@@ -43,7 +33,7 @@ interface Tab {
   name: TabName
 }
 
-const tabs = ref<Tab[]>([
+const tabList = ref<Tab[]>([
   { label: '推荐', name: 'recommend' },
   { label: '冥想', name: 'meditation' },
   { label: '声音', name: 'sound' }
@@ -55,14 +45,7 @@ const handleTabsChange = (name: TabName) => {
   activeName.value = name
 }
 
-// 状态栏高度
-const { statusBarHeight = 0 } = uni.getSystemInfoSync()
-// 小程序胶囊高度
-let titleBarHeight = 0
-// #ifndef H5
-const { height, top } = uni.getMenuButtonBoundingClientRect()
-titleBarHeight = height + (top - statusBarHeight) * 2
-// #endif
+const topHeight = getTopHeight()
 </script>
 
 <style></style>

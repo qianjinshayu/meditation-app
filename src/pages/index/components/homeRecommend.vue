@@ -11,6 +11,7 @@
           :key="index"
           class="flex w-600rpx shrink-0 bg-gradient-to-r from-cyan-500 to-blue-500 mr-20rpx text-white h-180rpx rounded-15rpx"
           :id="'item' + index"
+          @click="linkToDetail"
         >
           <img
             src="https://imgco.xinli001.com/ceping/resources/images/trinyMCE/f2fed86414164946bc3ee4be0da2e9a0.png@80"
@@ -50,6 +51,7 @@
       :key="index"
       :course-info="item"
       :show-button="true"
+      @click="linkToDetail"
     ></course-item>
   </view>
 </template>
@@ -146,6 +148,12 @@ const soundList = ref([
 const emit = defineEmits(['changeTab'])
 const changeTab = (val: TabName) => {
   emit('changeTab', val)
+}
+
+const linkToDetail = () => {
+  uni.navigateTo({
+    url: '/pages/detail/detail'
+  })
 }
 </script>
 
