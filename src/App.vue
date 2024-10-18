@@ -1,7 +1,13 @@
 <script setup lang="ts">
 import { onLaunch, onShow, onHide } from '@dcloudio/uni-app'
 onLaunch(() => {
-  console.log('App Launch')
+  // console.log('App Launch')
+  // uni.login({
+  //   provider: 'weixin', //使用微信登录
+  //   success: function (loginRes) {
+  //     console.log('---', loginRes)
+  //   }
+  // })
 })
 onShow(() => {
   console.log('App Show')
@@ -9,6 +15,5 @@ onShow(() => {
 onHide(() => {
   console.log('App Hide')
 })
-// let ss = 'aa'
 </script>
 <style></style>

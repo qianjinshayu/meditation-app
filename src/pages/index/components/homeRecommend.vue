@@ -7,52 +7,39 @@
     <scroll-view scroll-x>
       <view class="flex bg-[length:100%_100%] py-20rpx" style="background-image: url('')">
         <view
-          v-for="(item, index) in exerciseList"
+          v-for="(item, index) in recommendList"
           :key="index"
           class="flex w-600rpx shrink-0 bg-gradient-to-r from-cyan-500 to-blue-500 mr-20rpx text-white h-180rpx rounded-15rpx"
           :id="'item' + index"
-          @click="linkToDetail"
+          @click="linkToDetail(item.id)"
         >
-          <img
-            src="https://imgco.xinli001.com/ceping/resources/images/trinyMCE/f2fed86414164946bc3ee4be0da2e9a0.png@80"
-            class="w-150rpx h-180rpx rounded-15rpx mt--20rpx ml-20rpx"
-          />
+          <img :src="item.cover" class="w-150rpx h-180rpx rounded-15rpx mt--20rpx ml-20rpx" />
           <view class="ml-20rpx flex flex-col justify-between py-20rpx">
             <view class="text-32rpx">{{ item.name }}</view>
-            <view class="text-24rpx">{{ item.intro }}</view>
+            <view class="text-24rpx">{{ item.describe }}</view>
             <view class="text-20rpx">
-              <text>{{ item.level === 1 ? '零基础' : '入门' }}</text>
-              <text>10分钟</text>
+              <text>{{ getLevelText(item.level) }}</text>
+              <text class="m-l20rpx">{{ formatSecondsToMinutes(item.duration) }}</text>
             </view>
           </view>
         </view>
       </view>
     </scroll-view>
     <view class="flex justify-between py-30rpx">
-      <view class="text-36rpx font-bold">推荐声音</view>
-      <view class="button--default" @click="changeTab('sound')">全部声音</view>
-    </view>
-    <view class="flex flex-wrap justify-around m-t10rpx">
-      <view
-        v-for="(item, index) in soundList"
-        :key="index"
-        class="w-1/5 px-10rpx flex flex-col items-center"
-      >
-        <img :src="item.cover" class="w-120rpx h-120rpx rounded-full" />
-        <view class="text-24rpx py-20rpx">{{ item.name }}</view>
-      </view>
-    </view>
-    <view class="flex justify-between py-30rpx">
       <view class="text-36rpx font-bold">精选</view>
       <view class="button--default" @click="changeTab('meditation')">更多</view>
     </view>
     <course-item
-      v-for="(item, index) in exerciseList"
+      v-for="(item, index) in choiceList"
       :key="index"
       :course-info="item"
       :show-button="true"
-      @click="linkToDetail"
+      @click="linkToDetail(item.id)"
     ></course-item>
+    <view v-if="isLoading" class="text-zinc-400 py20rpx text-center text-24rpx">加载中...</view>
+    <view v-if="!hasMoreData" class="text-zinc-400 py20rpx text-center text-24rpx">
+      没有更多数据了
+    </view>
   </view>
 </template>
 
@@ -60,101 +47,84 @@
 import { ref } from 'vue'
 import courseItem from './courseItem.vue'
 import type { TabName } from '../index.vue'
-
-const exerciseList = ref([
-  {
-    name: '冥想初体验',
-    cover: '',
-    intro: '适合冥想小白的第一次练习',
-    level: 1,
-    duration: 10,
-    userAvatar: ''
-  },
-  {
-    name: '身体扫描',
-    cover: '',
-    intro: '与身体联结',
-    level: 2,
-    duration: 16,
-    userAvatar: ''
-  },
-  {
-    name: '睡前放松(轻度)',
-    cover: '',
-    intro: '缓解身心紧张,更好入眠',
-    level: 2,
-    duration: 10,
-    userAvatar: ''
-  }
-])
-
-// 滚动高度
-// let scrollTop = ref(0)
-// const onScroll = (e: any) => {
-//   scrollTop.value = e.detail.scrollTop
-// }
-
-const soundList = ref([
-  {
-    name: '海浪',
-    cover:
-      'https://bpic.588ku.com/back_origin_min_pic/19/10/22/f0ff175a8af6dc28a22eda73eb141083.jpg',
-    id: '1'
-  },
-  {
-    name: '春雨',
-    cover:
-      'https://bpic.588ku.com/back_origin_min_pic/19/10/22/f0ff175a8af6dc28a22eda73eb141083.jpg',
-    id: '2'
-  },
-  {
-    name: '远方',
-    cover:
-      'https://bpic.588ku.com/back_origin_min_pic/19/10/22/f0ff175a8af6dc28a22eda73eb141083.jpg',
-    id: '3'
-  },
-  {
-    name: '静谧',
-    cover:
-      'https://bpic.588ku.com/back_origin_min_pic/19/10/22/f0ff175a8af6dc28a22eda73eb141083.jpg',
-    id: '4'
-  },
-  {
-    name: '月光',
-    cover:
-      'https://bpic.588ku.com/back_origin_min_pic/19/10/22/f0ff175a8af6dc28a22eda73eb141083.jpg',
-    id: '5'
-  },
-  {
-    name: '星云',
-    cover:
-      'https://bpic.588ku.com/back_origin_min_pic/19/10/22/f0ff175a8af6dc28a22eda73eb141083.jpg',
-    id: '6'
-  },
-  {
-    name: '大提琴',
-    cover:
-      'https://bpic.588ku.com/back_origin_min_pic/19/10/22/f0ff175a8af6dc28a22eda73eb141083.jpg',
-    id: '7'
-  },
-  {
-    name: '森林',
-    cover:
-      'https://bpic.588ku.com/back_origin_min_pic/19/10/22/f0ff175a8af6dc28a22eda73eb141083.jpg',
-    id: '8'
-  }
-])
+import { onShow, onReachBottom } from '@dcloudio/uni-app'
+import { getCourseList } from '@/api/modules/course'
+import type { Course } from '@/api/interface/index'
+import { formatSecondsToMinutes } from '@/utils'
+import { getLevelText } from '@/enums/levelEnum'
 
 const emit = defineEmits(['changeTab'])
+
+/** 加载中 */
+let isLoading = ref(false)
+/** 是否有更多数据可加载 */
+let hasMoreData = ref(true)
+/** 页码 */
+let pageNum = ref(1)
+
+/** 推荐练习列表 */
+const recommendList = ref<Course.ResCourse[]>([])
+/**
+ * 获取推荐列表数据
+ */
+const getRecommendData = async () => {
+  try {
+    const res = await getCourseList({ isRecommend: 1 })
+    const { data } = res.data
+    recommendList.value = data
+  } catch (err) {
+    console.log(err)
+  }
+}
+
+/** 精选列表 */
+const choiceList = ref<Course.ResCourse[]>([])
+/**
+ * 获取精选列表数据
+ */
+const getChoiceData = async () => {
+  if (isLoading.value) return
+  isLoading.value = true
+
+  try {
+    const res = await getCourseList({ pageNum: pageNum.value, isChoice: 1 })
+    const { data, total } = res.data
+    choiceList.value = choiceList.value.concat(data)
+    hasMoreData.value = choiceList.value.length < total
+    pageNum.value++
+  } catch (err) {
+    console.log(err)
+  } finally {
+    isLoading.value = false
+  }
+}
+
+/**
+ * 跳转至课程详情页
+ * @param id 课程id
+ */
+const linkToDetail = (id: number) => {
+  uni.navigateTo({
+    url: `/pages/detail/detail?id=${id}`
+  })
+}
+
+/**
+ * 切换Tab栏
+ * @param val 选中的Tab栏name
+ */
 const changeTab = (val: TabName) => {
   emit('changeTab', val)
 }
 
-const linkToDetail = () => {
-  uni.navigateTo({
-    url: '/pages/detail/detail'
-  })
-}
+onShow(() => {
+  getRecommendData()
+  getChoiceData()
+})
+
+onReachBottom(() => {
+  hasMoreData.value && getChoiceData()
+})
 </script>
 
 <style></style>

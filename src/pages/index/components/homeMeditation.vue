@@ -52,7 +52,6 @@
         v-for="(item, index) in exerciseList"
         :key="index"
         :course-info="item"
-        :show-button="false"
       ></course-item>
     </view>
   </view>

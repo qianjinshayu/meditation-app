@@ -10,3 +10,16 @@ export function getTopHeight() {
 
   return statusBarHeight + titleBarHeight
 }
+
+/**
+ * 将秒转换为分钟的工具函数，不足1分钟的秒数视为1分钟，向上取整
+ * @param seconds - 要转换的秒数
+ * @returns 格式化的分钟
+ */
+export const formatSecondsToMinutes = (seconds?: number): string => {
+  if (typeof seconds === 'number' && seconds > 0) {
+    const minutes = Math.ceil(seconds / 60)
+    return `${minutes}分钟`
+  }
+  return ''
+}

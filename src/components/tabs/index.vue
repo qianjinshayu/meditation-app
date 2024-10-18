@@ -1,5 +1,5 @@
 <template>
-  <view class="flex items-center py40rpx bg-white">
+  <view class="flex items-center bg-white w-full h-full pl-30rpx">
     <view
       v-for="(item, index) in props.tabList"
       :key="index"
