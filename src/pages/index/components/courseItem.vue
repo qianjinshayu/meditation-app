@@ -1,5 +1,5 @@
 <template>
-  <view class="flex py-20rpx">
+  <view class="flex py-20rpx" @click="handleClick">
     <img :src="courseInfo.cover" class="w-180rpx h-180rpx rounded-15rpx" />
     <view class="grow flex flex-col justify-between py-5rpx ml-30rpx">
       <view class="text-32rpx font-bold">{{ courseInfo.name }}</view>
@@ -42,6 +42,15 @@ interface Props {
 const props = withDefaults(defineProps<Props>(), {
   showButton: false
 })
+
+const emit = defineEmits<{
+  click: []
+}>()
+
+/** 在组件触发触发click事件，解决在小程序上，自定义组件上的click事件不生效问题 */
+const handleClick = () => {
+  emit('click')
+}
 
 const courseInfo = computed(() => {
   return props.courseInfo

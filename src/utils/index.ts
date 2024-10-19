@@ -23,3 +23,14 @@ export const formatSecondsToMinutes = (seconds?: number): string => {
   }
   return ''
 }
+
+/**
+ * 将秒转换为时长，格式为 02:36
+ * @param time 要转换的秒数
+ * @returns 格式化后的时长
+ */
+export const formatTime = (time: number) => {
+  const minutes = Math.floor(time / 60)
+  const seconds = Math.floor(time % 60)
+  return `${String(minutes).padStart(2, '0')}:${String(seconds).padStart(2, '0')}`
+}

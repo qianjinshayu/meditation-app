@@ -45,7 +45,9 @@
           <img src="../../static/tabbar/selectedStar.png" class="w-48rpx h-48rpx" />
           <view class="text-24rpx text-color--primary">首页</view>
         </view>
-        <view class="button--primary grow text-center ml-30rpx" @click="linkToPlay">开始练习</view>
+        <view class="button--primary grow text-center ml-30rpx" @click="linkToPlay(courseId)">
+          开始练习
+        </view>
       </view>
     </view>
   </view>
@@ -81,9 +83,9 @@ onLoad((options: any) => {
 })
 
 /** 跳转到播放页 */
-const linkToPlay = () => {
+const linkToPlay = (id: number) => {
   uni.navigateTo({
-    url: '/pages/detail/play'
+    url: `/pages/detail/play?id=${id}`
   })
 }
 
