@@ -21,17 +21,14 @@ const httpInterceptor = {
     options.url = baseUrl + options.url
     // 请求超时
     options.timeout = 10000 // 10s
-    // 添加小程序端请求头标识
-    // options.header = {
-    //   platform, // 与 uniapp 定义的平台一致，告诉后台来源
-    //   ...options.header,
-    // }
+    // 确保 options.header 是一个对象，否则下面赋值 token 会报错
+    options.header = options.header || {}
     // 添加 token 请求头标识
-    // const userStore = useUserStore()
-    // const { token } = userStore.userInfo as unknown as IUserInfo
-    // if (token) {
-    //   options.header.Authorization = `Bearer ${token}`
-    // }
+    const token = uni.getStorageSync('token')
+    console.log('token', token)
+    if (token) {
+      options.header.Authorization = `Bearer ${token}`
+    }
   }
 }
 
