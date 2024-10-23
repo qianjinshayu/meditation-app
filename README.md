@@ -61,12 +61,14 @@ mysql_server_host=localhost
 mysql_server_port=3306
 mysql_server_username=root
 mysql_server_password=
-mysql_server_database=meditation
+mysql_server_database=
 
 # 微信小程序配置
 wechat_appid=
 wechat_secret=
 ```
+
+在 mysql 中创建一个数据库，数据库名与 mysql_server_database 设置的一致，运行项目即可自动创建相关表，可访问 http://localhost:3000/course/init 接口进行初始化课程数据
 
 - **Run：**
 
