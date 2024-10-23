@@ -34,10 +34,10 @@ Meditation App 是一个冥想类应用，个人全栈练手小项目。前端�
 
 ```text
 # 前端
-git clone https://github.com/qianjinshayu/meditation-app
+git clone git@github.com:qianjinshayu/meditation-app.git
 
 # 后端
-git clone https://github.com/qianjinshayu/meditation-app-backend
+git clone git@github.com:qianjinshayu/meditation-app-backend.git
 ```
 
 - **Install：**
