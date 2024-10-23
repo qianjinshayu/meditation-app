@@ -19,7 +19,7 @@
         <view>
           <view class="text-slate-400 text-20rpx">已有练习</view>
           <view class="text-24rpx">
-            <text>6502772</text>
+            <text>{{ courseInfo?.viewCount }}</text>
             <text class="text-slate-400">次</text>
           </view>
         </view>
@@ -34,8 +34,8 @@
         </view>
       </view>
     </view>
-    <view class="bg-white mx-30rpx px-20rpx py-20rpx rounded-15rpx mb-120rpx">
-      <view class="text-36rpx font-bold">练习简介</view>
+    <view class="text-36rpx font-bold mb-30rpx ml-30rpx">练习简介</view>
+    <view class="bg-white mx-30rpx px-20rpx py-20rpx rounded-15rpx pb-120rpx">
       <rich-text :nodes="courseInfo?.detailContent"></rich-text>
     </view>
     <view class="fixed bottom-0 left-0 right-0 h-100rpx bg-white">
